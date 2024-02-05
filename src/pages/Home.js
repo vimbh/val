@@ -19,21 +19,29 @@ function Home() {
         }
     }
 
+    function handleClick(e) {
+        console.log(e.target.id)
+    }
+
     function createGrid() {
         
         const gridContainer = []
         const grid = []
-        let gridItem = []
+        let gridTile = []
         let gridId = 1
+
+        // Pick a random tile to set free b.w [1, n^2]
+        const freeTile = Math.floor(Math.random() * (gridSize**2 + 1)) + 1
 
         // Create grid element
         for (let i = 0; i < gridSize; i++) {
-            gridItem = []
+            gridTile = []
             for (let j = 0; j < gridSize; j++) {
                 gridId = j + 1 + i*gridSize
-                gridItem.push(
+                gridTile.push(
                     <div 
-                    className="grid-object fixed"
+                    className={`grid-object ${gridId === freeTile ? 'free' : 'fixed'}`}
+                    onClick={handleClick}
                     id={gridId}
                     key={gridId}>
                         {gridId}
@@ -42,8 +50,12 @@ function Home() {
             }
             // Create grid row
             grid.push(
-                <div className="grid-row">
-                    {gridItem}
+                <div 
+                className="grid-row"
+                id={`gridRow-${i+1}`}
+                key={`gridRow-${i+1}`}
+                >
+                    {gridTile}
                 </div>
             )
         }
