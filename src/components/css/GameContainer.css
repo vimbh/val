@@ -15,9 +15,19 @@
     display: flex;
     border: 2px solid black;
     background-color: red;
-    font-weight: 5em;
+    font-weight: 2em;
     height: 70px;
     width: 70px;
     align-items: center;    
     justify-content: center;
+}
+
+/* Grid item that cannot move */
+.fixed {
+    background-color: green;
+}
+
+/* Grid item that can move */
+.free {
+    background-color: white;
 }

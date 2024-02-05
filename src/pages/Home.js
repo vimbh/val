@@ -33,7 +33,7 @@ function Home() {
                 gridId = j + 1 + i*gridSize
                 gridItem.push(
                     <div 
-                    className="grid-object"
+                    className="grid-object fixed"
                     id={gridId}
                     key={gridId}>
                         {gridId}
