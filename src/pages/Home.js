@@ -18,9 +18,50 @@ function Home() {
             setGridSize(3);
         }
     }
+    
+    function validMove(e) {
 
-    function handleClick(e) {
+        const state = e.target.classList[1]
+        const i = parseInt(e.target.id)
+        console.log(i)
+
+        if (state === "fixed") {
+            return false
+        } 
+
+        // LHS
+        if ( i % gridSize != 1) {
+            console.log("can move left")
+        } 
+
+        // RHS
+        if (i % gridSize != 0) {
+            console.log("can move right")
+        }
+
+        // TOP
+        if ( i > gridSize ) {
+            console.log("can move up")
+        }
+
+        // BOT
+        if ( i < (gridSize**2 - (gridSize + 1)) ) {
+            console.log("can move down")
+        }
+
+    }
+
+    // Move tiles on click
+    function moveTile(e) {
         console.log(e.target.id)
+        
+        if (validMove(e)) {
+            console.log("valid")
+        } else {
+            console.log("stuck")
+        }
+
+
     }
 
     function createGrid() {
@@ -31,7 +72,7 @@ function Home() {
         let gridId = 1
 
         // Pick a random tile to set free b.w [1, n^2]
-        const freeTile = Math.floor(Math.random() * (gridSize**2 + 1)) + 1
+        const freeTile = Math.floor(Math.random() * gridSize**2) + 1
 
         // Create grid element
         for (let i = 0; i < gridSize; i++) {
@@ -41,7 +82,7 @@ function Home() {
                 gridTile.push(
                     <div 
                     className={`grid-object ${gridId === freeTile ? 'free' : 'fixed'}`}
-                    onClick={handleClick}
+                    onClick={moveTile}
                     id={gridId}
                     key={gridId}>
                         {gridId}
