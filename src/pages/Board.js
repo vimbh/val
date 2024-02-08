@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
 
 
-function createEmptyBoard(m) {
+function createArray(m) {
 
     return Array.from({length: m}, () => Array(m).fill(1));
 };
+
+
+function randomEmptyTile(gridSize) {
+    const xIdx = Math.floor(Math.random() * gridSize);
+    const yIdx = Math.floor(Math.random() * gridSize);
+
+    return [xIdx, yIdx]
+}
+
+
 
 export default function Board() {
 
     const [gridSize, setGridSize] = useState(3);
     const [board, setBoard] = useState([]);
+    const [emptyTile, setEmptyTile] = useState(randomEmptyTile(gridSize));
 
+    // Update board when size is changed
     useEffect(() => {
-        setBoard(createEmptyBoard(gridSize))
+        setBoard(createArray(gridSize));
+        setEmptyTile(randomEmptyTile(gridSize));
     }, [gridSize])
-
-    // Check if i need empty dep array
-    useEffect(() => {
-        createEmptyBoard(gridSize)
-    })
 
     // Config grid
     const handleGridSize = (e) => {
@@ -32,13 +40,48 @@ export default function Board() {
         }
     }
 
+    function swapTiles(rIdx, cIdx) {
+        console.log(rIdx, cIdx);
+    
+        // Swap is based on if the clicked tile is reachable from the empty tile
+
+        // Down
+        if ((emptyTile[0] - 1) === rIdx && emptyTile[1] === cIdx) {
+            setEmptyTile([rIdx, cIdx]);
+        }
+    
+        // Up
+        if ((emptyTile[0] + 1) === rIdx && emptyTile[1] === cIdx) {
+            setEmptyTile([rIdx, cIdx]);
+        }      
+    
+        // Right
+        if (emptyTile[0] === rIdx && (emptyTile[1] - 1) === cIdx) {
+            setEmptyTile([rIdx, cIdx]);
+        }    
+
+        // Left
+        if (emptyTile[0] === rIdx && (emptyTile[1] + 1) === cIdx) {
+            setEmptyTile([rIdx, cIdx]);
+        }    
+        
+    }
+
     const renderedBoard = (
         <div className="grid-container">
             {board.map((rows, rIdx) => (
-                <div className="grid-row" key={`row-${rIdx}`}>
-                    {rows.map((columns, cIdx) => (
-                        <div className="grid-object" key={`${rIdx}-${cIdx}`}>
-                            n
+                <div 
+                    className="grid-row" 
+                    key={`row-${rIdx}`}
+                >
+                    {rows.map((_, cIdx) => (
+                        <div
+                            className="grid-object"
+                            key={`col-${cIdx}`}
+                            onClick={() => swapTiles(rIdx, cIdx)}
+                            style={rIdx === emptyTile[0] && cIdx === emptyTile[1] ? { backgroundColor: "yellow" } : null}
+                        >
+                            {`${rIdx}, ${cIdx}`}
                         </div>
                     ))}
                 </div>
@@ -46,8 +89,6 @@ export default function Board() {
         </div>
     );
 
-
-    console.log(board)
 
     return (
         <>
