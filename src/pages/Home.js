@@ -30,12 +30,12 @@ function Home() {
         } 
 
         // LHS
-        if ( i % gridSize != 1) {
+        if ( i % gridSize !== 1) {
             console.log("can move left")
         } 
 
         // RHS
-        if (i % gridSize != 0) {
+        if (i % gridSize !== 0) {
             console.log("can move right")
         }
 
